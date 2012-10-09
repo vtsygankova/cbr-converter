@@ -13,6 +13,8 @@ namespace CbrConverter
 {
     public partial class Form1 : Form
     {
+        bool _fileSelected = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,15 +30,27 @@ namespace CbrConverter
                 DataAccess.Instance.g_Processing = false;
                 btn_StartStop.Text = "START";
                 lbl_ProcessingFile.Text = string.Empty;
+
+                //end remove original if selected
+                if (chk_deleteOrig.Checked)
+                {
+                    if (File.Exists(DataAccess.Instance.g_WorkingDir)) //single dile
+                        File.Delete(DataAccess.Instance.g_WorkingDir);
+                    else
+                        Directory.Delete(DataAccess.Instance.g_WorkingDir, true);
+                }
             }
             else
             {
-                btn_StartStop.Text = "STOP";
-                DataAccess.Instance.g_ReduceSize = chk_ReduceSize.Checked;
-                DataAccess.Instance.g_Processing = true;
-                Extract ex = new Extract();
-                this.Subscribe(ex);
-                ex.BeginExtraction();
+                if (((chk_cbr2pdf.Checked) || (chk_pdf2cbr.Checked))&&(_fileSelected))
+                {
+                    btn_StartStop.Text = "STOP";
+                    DataAccess.Instance.g_ReduceSize = chk_ReduceSize.Checked;
+                    DataAccess.Instance.g_Processing = true;
+                    Extract ex = new Extract();
+                    this.Subscribe(ex);
+                    ex.BeginExtraction(chk_cbr2pdf.Checked, chk_pdf2cbr.Checked, chk_ReduceSize.Checked, chk_deleteOrig.Checked);
+                }
             }
         }
 
@@ -48,8 +62,9 @@ namespace CbrConverter
             m.evnt_UpdatTotBar += new Extract.UpdateTotalBar(UpdateTotaBar);
             m.evnt_UpdateFileName += new Extract.UpdateFileName(UpdateFileName);
             m.evnt_ErrorNotify += new Extract.ErrorNotify(ErrorShowPopup);
+            PdfFunctions.evnt_UpdateCurBar += new PdfFunctions.UpdateCurrentBar(UpdateCurrBar);
         }
-        private void UpdateCurrBar(Extract m, EventArgs e)
+        private void UpdateCurrBar()
         {
            
             this.Invoke((MethodInvoker)delegate
@@ -114,7 +129,7 @@ namespace CbrConverter
             {
                 DataAccess.Instance.g_WorkingDir = SelectFolderDlg.SelectedPath;
                 tbox_SourceFile.Text = SelectFolderDlg.SelectedPath;
-                
+                _fileSelected = true;
                
             }
 
