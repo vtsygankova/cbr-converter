@@ -37,11 +37,16 @@
     <ApplicationIcon>1335329130_comic-book.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NUnrar">
-      <HintPath>.\NUnrar.dll</HintPath>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>.\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp-WPF">
       <HintPath>.\PdfSharp-WPF.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="SharpCompress">
+      <HintPath>.\SharpCompress.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,6 +77,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="PdfFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutorForm.resx">
