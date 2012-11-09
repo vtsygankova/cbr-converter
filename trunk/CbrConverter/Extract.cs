@@ -160,6 +160,8 @@ namespace CbrConverter
                     evnt_UpdatTotBar(this, e);
                 }
 
+               
+
                 //if we are converting a single file and not a directory we are done, so i reset values and clean the UI
                 if (IsSingleFile)
                 {
@@ -197,7 +199,7 @@ namespace CbrConverter
                 divider = 50;
             else
                 divider = 80;
-           
+
 
             if (PdfFunctions.PDF_ExportImage(DataAccess.Instance.g_WorkingFile, temporaryDir, divider))
             {
@@ -213,28 +215,36 @@ namespace CbrConverter
                     using (ZipFile zip = new ZipFile())
                     {
                         zip.AddDirectory(temporaryDir);
-                       // zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
+                        // zip.Comment = "This zip was created at " + System.DateTime.Now.ToString("G");
                         zip.Save(savedfile);
                     }
 
                     //waiting the new sharpcompress release to fix it
-                  /*  using (var archive = ZipArchive.Create())
-                    {
-                        archive.AddAllFromDirectory(temporaryDir);                       
-                        archive.SaveTo(savedfile, CompressionType.None);    
-                    }*/
+                    /*  using (var archive = ZipArchive.Create())
+                      {
+                          archive.AddAllFromDirectory(temporaryDir);                       
+                          archive.SaveTo(savedfile, CompressionType.None);    
+                      }*/
 
-                    
+
                     //update progress bar
                     DataAccess.Instance.g_curProgress = 0;
                     evnt_UpdateCurBar();
-                   
+
                 }
-                    
+
+            }
+            else //error exporting the images
+            {
+                //update progress bar
+                DataAccess.Instance.g_curProgress = 0;
+                evnt_UpdateCurBar();
             }
             //delete the temp dir
             if (Directory.Exists(temporaryDir))
                 Directory.Delete(temporaryDir, true);
+
+           
 
             //if we are converting a single file and not a directory we are done, so i reset values and clean the UI
             if (IsSingleFile)

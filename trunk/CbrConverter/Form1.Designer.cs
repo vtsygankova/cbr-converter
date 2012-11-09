@@ -30,20 +30,20 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbl_about = new System.Windows.Forms.Label();
             this.tbox_SourceFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btn_StartStop = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbl_about = new System.Windows.Forms.Label();
+            this.chk_deleteOrig = new System.Windows.Forms.CheckBox();
+            this.chk_pdf2cbr = new System.Windows.Forms.CheckBox();
+            this.chk_cbr2pdf = new System.Windows.Forms.CheckBox();
             this.chk_ReduceSize = new System.Windows.Forms.CheckBox();
             this.pbar_TotalProgress = new System.Windows.Forms.ProgressBar();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_ProcessingFile = new System.Windows.Forms.Label();
             this.pbar_ActualFile = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
-            this.chk_cbr2pdf = new System.Windows.Forms.CheckBox();
-            this.chk_pdf2cbr = new System.Windows.Forms.CheckBox();
-            this.chk_deleteOrig = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +58,19 @@
             this.groupBox1.Size = new System.Drawing.Size(310, 65);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // lbl_about
+            // 
+            this.lbl_about.AutoSize = true;
+            this.lbl_about.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_about.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_about.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.lbl_about.Location = new System.Drawing.Point(269, 11);
+            this.lbl_about.Name = "lbl_about";
+            this.lbl_about.Size = new System.Drawing.Size(35, 13);
+            this.lbl_about.TabIndex = 5;
+            this.lbl_about.Text = "About";
+            this.lbl_about.Click += new System.EventHandler(this.lbl_about_Click);
             // 
             // tbox_SourceFile
             // 
@@ -109,18 +122,40 @@
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
-            // lbl_about
+            // chk_deleteOrig
             // 
-            this.lbl_about.AutoSize = true;
-            this.lbl_about.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbl_about.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_about.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.lbl_about.Location = new System.Drawing.Point(269, 11);
-            this.lbl_about.Name = "lbl_about";
-            this.lbl_about.Size = new System.Drawing.Size(35, 13);
-            this.lbl_about.TabIndex = 5;
-            this.lbl_about.Text = "About";
-            this.lbl_about.Click += new System.EventHandler(this.lbl_about_Click);
+            this.chk_deleteOrig.AutoSize = true;
+            this.chk_deleteOrig.Enabled = false;
+            this.chk_deleteOrig.Location = new System.Drawing.Point(197, 38);
+            this.chk_deleteOrig.Name = "chk_deleteOrig";
+            this.chk_deleteOrig.Size = new System.Drawing.Size(93, 17);
+            this.chk_deleteOrig.TabIndex = 8;
+            this.chk_deleteOrig.Text = "Delete original";
+            this.chk_deleteOrig.UseVisualStyleBackColor = true;
+            // 
+            // chk_pdf2cbr
+            // 
+            this.chk_pdf2cbr.AutoSize = true;
+            this.chk_pdf2cbr.Checked = true;
+            this.chk_pdf2cbr.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_pdf2cbr.Location = new System.Drawing.Point(78, 38);
+            this.chk_pdf2cbr.Name = "chk_pdf2cbr";
+            this.chk_pdf2cbr.Size = new System.Drawing.Size(80, 17);
+            this.chk_pdf2cbr.TabIndex = 7;
+            this.chk_pdf2cbr.Text = "PDF to Cbz";
+            this.chk_pdf2cbr.UseVisualStyleBackColor = true;
+            // 
+            // chk_cbr2pdf
+            // 
+            this.chk_cbr2pdf.AutoSize = true;
+            this.chk_cbr2pdf.Checked = true;
+            this.chk_cbr2pdf.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_cbr2pdf.Location = new System.Drawing.Point(78, 17);
+            this.chk_cbr2pdf.Name = "chk_cbr2pdf";
+            this.chk_cbr2pdf.Size = new System.Drawing.Size(101, 17);
+            this.chk_cbr2pdf.TabIndex = 6;
+            this.chk_cbr2pdf.Text = "Cbr/Cbz to PDF";
+            this.chk_cbr2pdf.UseVisualStyleBackColor = true;
             // 
             // chk_ReduceSize
             // 
@@ -172,40 +207,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Processing:";
             // 
-            // chk_cbr2pdf
-            // 
-            this.chk_cbr2pdf.AutoSize = true;
-            this.chk_cbr2pdf.Checked = true;
-            this.chk_cbr2pdf.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_cbr2pdf.Location = new System.Drawing.Point(78, 17);
-            this.chk_cbr2pdf.Name = "chk_cbr2pdf";
-            this.chk_cbr2pdf.Size = new System.Drawing.Size(101, 17);
-            this.chk_cbr2pdf.TabIndex = 6;
-            this.chk_cbr2pdf.Text = "Cbr/Cbz to PDF";
-            this.chk_cbr2pdf.UseVisualStyleBackColor = true;
-            // 
-            // chk_pdf2cbr
-            // 
-            this.chk_pdf2cbr.AutoSize = true;
-            this.chk_pdf2cbr.Checked = true;
-            this.chk_pdf2cbr.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_pdf2cbr.Location = new System.Drawing.Point(78, 38);
-            this.chk_pdf2cbr.Name = "chk_pdf2cbr";
-            this.chk_pdf2cbr.Size = new System.Drawing.Size(80, 17);
-            this.chk_pdf2cbr.TabIndex = 7;
-            this.chk_pdf2cbr.Text = "PDF to Cbz";
-            this.chk_pdf2cbr.UseVisualStyleBackColor = true;
-            // 
-            // chk_deleteOrig
-            // 
-            this.chk_deleteOrig.AutoSize = true;
-            this.chk_deleteOrig.Location = new System.Drawing.Point(197, 38);
-            this.chk_deleteOrig.Name = "chk_deleteOrig";
-            this.chk_deleteOrig.Size = new System.Drawing.Size(93, 17);
-            this.chk_deleteOrig.TabIndex = 8;
-            this.chk_deleteOrig.Text = "Delete original";
-            this.chk_deleteOrig.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,7 +219,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CBR Converter 1.1.0";
+            this.Text = "CBR Converter";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

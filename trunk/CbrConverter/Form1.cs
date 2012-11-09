@@ -31,14 +31,7 @@ namespace CbrConverter
                 btn_StartStop.Text = "START";
                 lbl_ProcessingFile.Text = string.Empty;
 
-                //end remove original if selected
-                if (chk_deleteOrig.Checked)
-                {
-                    if (File.Exists(DataAccess.Instance.g_WorkingDir)) //single dile
-                        File.Delete(DataAccess.Instance.g_WorkingDir);
-                    else
-                        Directory.Delete(DataAccess.Instance.g_WorkingDir, true);
-                }
+                
             }
             else
             {
@@ -72,6 +65,16 @@ namespace CbrConverter
                 if (DataAccess.Instance.g_curProgress > 100)
                     DataAccess.Instance.g_curProgress = 100;
                 pbar_ActualFile.Value = (int)DataAccess.Instance.g_curProgress;
+
+                //end remove original if selected
+              /*  if ((chk_deleteOrig.Checked) &&  (DataAccess.Instance.g_curProgress == 0))
+                {
+                    if (File.Exists(DataAccess.Instance.g_WorkingDir)) //single file
+                        File.Delete(DataAccess.Instance.g_WorkingDir);
+                    else
+                        Directory.Delete(DataAccess.Instance.g_WorkingDir, true);
+                }*/
+
             });
         }
 
@@ -81,8 +84,11 @@ namespace CbrConverter
             this.Invoke((MethodInvoker)delegate
             {
                 lbl_ProcessingFile.Text = Path.GetFileName(DataAccess.Instance.g_WorkingFile);
-                if (lbl_ProcessingFile.Text == string.Empty)
+                if (lbl_ProcessingFile.Text == string.Empty)//finished
+                {
                     btn_StartStop.Text = "START";
+                   
+                }
             });
         }
 
@@ -129,6 +135,37 @@ namespace CbrConverter
             {
                 DataAccess.Instance.g_WorkingDir = SelectFolderDlg.SelectedPath;
                 tbox_SourceFile.Text = SelectFolderDlg.SelectedPath;
+
+                //check if file or folder
+                if (File.Exists(DataAccess.Instance.g_WorkingDir)) //is a file
+                {
+                    //check the extension
+                    if ((Path.GetExtension(SelectFolderDlg.SelectedPath) == ".pdf") || (Path.GetExtension(SelectFolderDlg.SelectedPath) == ".PDF"))
+                    {
+                        chk_cbr2pdf.Checked = false;
+                        chk_cbr2pdf.Enabled = false;
+                        chk_pdf2cbr.Checked = true;
+                        chk_pdf2cbr.Enabled = true;
+
+                    }
+                    else if ((Path.GetExtension(SelectFolderDlg.SelectedPath) == ".cbr") || (Path.GetExtension(SelectFolderDlg.SelectedPath) == ".CBR")
+                        || (Path.GetExtension(SelectFolderDlg.SelectedPath) == ".cbz") || (Path.GetExtension(SelectFolderDlg.SelectedPath) == ".CBZ"))
+                    {
+                        chk_cbr2pdf.Checked = true;
+                        chk_cbr2pdf.Enabled = true;
+                        chk_pdf2cbr.Checked = false;
+                        chk_pdf2cbr.Enabled = false;
+
+                    }
+                }
+                else //is a folder
+                {
+                    chk_cbr2pdf.Checked = true;
+                    chk_cbr2pdf.Enabled = true;
+                    chk_pdf2cbr.Checked = true;
+                    chk_pdf2cbr.Enabled = true;
+                }
+
                 _fileSelected = true;
                
             }
