@@ -40,6 +40,9 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>.\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>.\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="PdfSharp-WPF">
       <HintPath>.\PdfSharp-WPF.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>

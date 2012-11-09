@@ -21,8 +21,8 @@ namespace CbrConverter
 
         public static bool PDF_ExportImage(string filename, string dirForExtractions, int divider)
         {
-           
-            PdfDocument document = PdfReader.Open(filename);
+
+            PdfDocument document = NewOpen(filename);
             DataAccess.Instance.g_curProgress = 0;
 
             _ExtractionDir = dirForExtractions;
@@ -88,7 +88,7 @@ namespace CbrConverter
                             ExportAsPngImage(image, ref count);
                             break;*/
                     default:
-                        ret = false;
+                        ret = true;
                         break;
                 }
             }
@@ -139,7 +139,81 @@ namespace CbrConverter
             return true;
         }
 
+
+
+
+
+
+
+        /// <summary>
+        /// uses itextsharp 4.1.6 to convert any pdf to 1.4 compatible pdf, called instead of PdfReader.open
+        /// </summary>
+        static PdfDocument NewOpen(string PdfPath)
+        {
+            using (FileStream fileStream = new FileStream(PdfPath, FileMode.Open, FileAccess.Read))
+            {
+                int len = (int)fileStream.Length;
+                Byte[] fileArray = new Byte[len];
+                fileStream.Read(fileArray, 0, len);
+                fileStream.Close();
+
+                return NewOpen(fileArray);
+            }
+        }
+
+        /// <summary>
+        /// uses itextsharp 4.1.6 to convert any pdf to 1.4 compatible pdf, called instead of PdfReader.open
+        /// </summary>
+        static PdfDocument NewOpen(byte[] fileArray)
+        {
+            return NewOpen(new MemoryStream(fileArray));
+        }
+
+        /// <summary>
+        /// uses itextsharp 4.1.6 to convert any pdf to 1.4 compatible pdf, called instead of PdfReader.open
+        /// </summary>
+        static PdfDocument NewOpen(MemoryStream sourceStream)
+        {
+            PdfDocument outDoc = null;
+            sourceStream.Position = 0;
+
+            try
+            {
+                outDoc = PdfReader.Open(sourceStream, PdfDocumentOpenMode.Import);
+            }
+            catch (PdfSharp.Pdf.IO.PdfReaderException)
+            {
+                //workaround if pdfsharp doesn't support this pdf
+                sourceStream.Position = 0;
+                MemoryStream outputStream = new MemoryStream();
+                iTextSharp.text.pdf.PdfReader reader = new iTextSharp.text.pdf.PdfReader(sourceStream);
+                iTextSharp.text.pdf.PdfStamper pdfStamper = new iTextSharp.text.pdf.PdfStamper(reader, outputStream);
+                pdfStamper.FormFlattening = true;
+                pdfStamper.Writer.SetPdfVersion(iTextSharp.text.pdf.PdfWriter.PDF_VERSION_1_4);
+                pdfStamper.Writer.CloseStream = false;
+                pdfStamper.Close();
+
+                outDoc = PdfReader.Open(outputStream, PdfDocumentOpenMode.Import);
+            }
+
+            return outDoc;
+        }
+
+
+
+
+
+
+
+
+
+
     }
+
+
+
+
+
 
    
     

@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace CbrConverter
 {
@@ -14,6 +16,11 @@ namespace CbrConverter
         public AboutorForm()
         {
             InitializeComponent();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            string version = fvi.ProductVersion;
+            label1.Text = "Version: " + version;
         }
     }
 }
